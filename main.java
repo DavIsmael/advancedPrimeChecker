@@ -7,6 +7,7 @@ public class main {
         int startingPoint = 0;
         int endingPoint = 0;
         int numbers = 0;
+        long totalSum = 0;
         long singleNumber = 0;
         boolean isPrime = false;
         boolean isSinglePrime = true;
@@ -144,6 +145,7 @@ public class main {
                 }else{
                     System.out.print(compositeNumbers.get(i) + ", ");
                 }
+                totalSum += compositeNumbers.get(i);
             }
         }
         if(primeNumbers.size() != 0) {
@@ -156,6 +158,7 @@ public class main {
                 } else {
                     System.out.print(primeNumbers.get(i) + ", ");
                 }
+                totalSum += primeNumbers.get(i);
             }
         }
         if(norPrimeNorComposite.size() != 0) {
@@ -168,6 +171,7 @@ public class main {
                 } else {
                     System.out.print(norPrimeNorComposite.get(i) + ", ");
                 }
+                totalSum += norPrimeNorComposite.get(i);
             }
         }
         if(selectedCompositeNumbers.size() != 0) {
@@ -180,6 +184,7 @@ public class main {
                 } else {
                     System.out.print(selectedCompositeNumbers.get(i) + ", ");
                 }
+                totalSum += selectedCompositeNumbers.get(i);
             }
         }
         if(selectedPrimeNumbers.size() != 0) {
@@ -192,6 +197,7 @@ public class main {
                 } else {
                     System.out.print(selectedPrimeNumbers.get(i) + ", ");
                 }
+                totalSum += selectedPrimeNumbers.get(i);
             }
         }
         if(selectedNorPrimeNorComposite.size() != 0) {
@@ -204,11 +210,10 @@ public class main {
                 } else {
                     System.out.print(selectedNorPrimeNorComposite.get(i) + ", ");
                 }
+                totalSum += selectedNorPrimeNorComposite.get(i);
             }
         }
+        System.out.print("Total sum of the numbers you have provided(just a fun feature tbh xD): " + totalSum);
         scanner.close();
     }
 }
-//soma
-//throw some stuff
-//would i then have to do for all of em?
