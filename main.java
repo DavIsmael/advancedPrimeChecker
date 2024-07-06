@@ -1,9 +1,19 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-public class main {
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         int startingPoint = 0;
         int endingPoint = 0;
         int numbers = 0;
@@ -15,6 +25,13 @@ public class main {
         String checkSingleNumber = null;
         String checkRangeOfNumbers = null;
         String checkSelectedNumbers = null;
+        String folderPath = "outputDir";
+        String primeNumbersFilePath = folderPath + File.separator + "primeNumbers.json";
+        String compositeNumbersFilePath = folderPath + File.separator + "compositeNumbers.json";
+        String norPrimeNorCompositeFilePath = folderPath + File.separator + "norPrimeNorComposite.json";
+        String selectedPrimeNumbersFilePath = folderPath + File.separator + "selectedPrimeNumbers.json";
+        String selectedCompositeNumbersFilePath = folderPath + File.separator + "selectedCompositeNumbers.json";
+        String selectedNorPrimeNorCompositeFilePath = folderPath + File.separator + "selectedNorPrimeNorComposite.json";
         ArrayList<Integer> rangeOfNumbers = new ArrayList<>();
         ArrayList<Integer> primeNumbers = new ArrayList<>();
         ArrayList<Integer> compositeNumbers = new ArrayList<>();
@@ -23,6 +40,15 @@ public class main {
         ArrayList<Integer> selectedCompositeNumbers = new ArrayList<>();
         ArrayList<Integer> selectedPrimeNumbers = new ArrayList<>();
         ArrayList<Integer> selectedNorPrimeNorComposite = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        File folder = new File(folderPath);
+        File primeNumbersJson = new File(primeNumbersFilePath);
+        File compositeNumbersJson = new File(compositeNumbersFilePath);
+        File norPrimeNorCompositeNumbersJson = new File(norPrimeNorCompositeFilePath);
+        File selectedPrimeNumbersJson = new File(selectedPrimeNumbersFilePath);
+        File selectedCompositeNumbersJson = new File(selectedCompositeNumbersFilePath);
+        File selectedNorPrimeNorCompositeNumbersJson = new File(selectedNorPrimeNorCompositeFilePath);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try{
             System.out.println("This program allows you to check if a number is prime or not by either going into the range of numbers approach, selected numbers approach or the single number approach");
             System.out.print("Do you want to check selected numbers? Type either yes or no ");
@@ -76,7 +102,7 @@ public class main {
             if(isSinglePrime){
                 System.out.println(singleNumber + " is prime!");
             }else if(singleNumber <= 1){
-                System.out.println(singleNumber + " isnt composite nor prime!");
+                System.out.println(singleNumber + " isn't composite nor prime!");
             }else{
                 System.out.println(singleNumber + " is a composite number!");
             }
@@ -213,7 +239,119 @@ public class main {
                 totalSum += selectedNorPrimeNorComposite.get(i);
             }
         }
-        System.out.print("Total sum of the numbers you have provided(just a fun feature tbh xD): " + totalSum);
+        System.out.print("Total sum of the numbers you have provided: " + totalSum);
         scanner.close();
+        if(!folder.exists()){
+            folder.mkdirs();
+        }
+        try{
+            primeNumbersJson.createNewFile();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try{
+            compositeNumbersJson.createNewFile();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try{
+            norPrimeNorCompositeNumbersJson.createNewFile();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try{
+            selectedPrimeNumbersJson.createNewFile();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try{
+            selectedCompositeNumbersJson.createNewFile();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try{
+            selectedNorPrimeNorCompositeNumbersJson.createNewFile();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try(FileWriter writer = new FileWriter(primeNumbersFilePath)){
+            gson.toJson(primeNumbers, writer);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try(FileWriter writer = new FileWriter(compositeNumbersFilePath)){
+            gson.toJson(compositeNumbers, writer);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try(FileWriter writer = new FileWriter(norPrimeNorCompositeFilePath)){
+            gson.toJson(norPrimeNorComposite, writer);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try(FileWriter writer = new FileWriter(selectedPrimeNumbersFilePath)){
+            gson.toJson(selectedPrimeNumbers, writer);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try(FileWriter writer = new FileWriter(selectedCompositeNumbersFilePath)){
+            gson.toJson(selectedCompositeNumbers, writer);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        try(FileWriter writer = new FileWriter(selectedNorPrimeNorCompositeFilePath)){
+            gson.toJson(selectedNorPrimeNorComposite, writer);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        System.out.println();
+        try {
+            String fileContent = Files.readString(Paths.get(primeNumbersFilePath));
+            if(!fileContent.trim().equals("[]")){
+                System.out.println("Prime Numbers Array was written to corresponding JSON file: " + primeNumbersFilePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            String fileContent = Files.readString(Paths.get(compositeNumbersFilePath));
+            if(!fileContent.trim().equals("[]")){
+                System.out.println("Composite Numbers Array was written to corresponding JSON file: " + compositeNumbersFilePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            String fileContent = Files.readString(Paths.get(norPrimeNorCompositeFilePath));
+            if(!fileContent.trim().equals("[]")){
+                System.out.println("Nor Prime Nor Composite Array of Numbers was written to corresponding JSON file: " + norPrimeNorCompositeFilePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            String fileContent = Files.readString(Paths.get(selectedPrimeNumbersFilePath));
+            if(!fileContent.trim().equals("[]")){
+                System.out.println("Selected Prime Numbers Array was written to corresponding JSON file: " + selectedPrimeNumbersFilePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            String fileContent = Files.readString(Paths.get(selectedCompositeNumbersFilePath));
+            if(!fileContent.trim().equals("[]")){
+                System.out.println("Selected Composite Numbers Array was written to corresponding JSON file: " + selectedCompositeNumbersFilePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            String fileContent = Files.readString(Paths.get(selectedNorPrimeNorCompositeFilePath));
+            if(!fileContent.trim().equals("[]")){
+                System.out.println("Selected Nor Prime Nor Composite Array of Numbers was written to corresponding JSON file: " + selectedNorPrimeNorCompositeFilePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
