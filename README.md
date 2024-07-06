@@ -11,16 +11,4 @@ To access the project structure on Intellij IDEA:
 
 (You can also find Gson through the Maven Repository, https://mvnrepository.com/artifact/com.google.code.gson/gson)
 
-
-
-
-
-
-
-
-
-
-
-REALLY MESSY CODE I KNOW
-
-BUT IF IT WORKS IT WORKS AMIRIGHT XD
+PS: This project is not perfect at all, beware.
