@@ -11,4 +11,8 @@ To access the project structure on Intellij IDEA:
 
 (You can also find Gson through the Maven Repository, https://mvnrepository.com/artifact/com.google.code.gson/gson)
 
+- Instructions
+- - Approach - 0: This one lets you input numbers on the 'listOfNumbers.json' file so that the program can verify for you if the provided numbers are either prime, composite or neither.
+- - Approach - 1: This one lets you verify for numbers inputted on the program itself. You can check for range of numbers, a single number or selected numbers. 
+
 PS: This project is not perfect at all, beware.
