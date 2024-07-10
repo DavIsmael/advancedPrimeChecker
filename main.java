@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 
 import java.lang.reflect.Type;
 
+
 public class Main {
     public static void main(String[] args) {
         System.out.print("Would you like to check for a inputted json file or through the programmatic approach? Type 0 or 1 to choose one or another respectively: ");
@@ -23,7 +24,58 @@ public class Main {
         int answer = scanner1.nextInt();
         if(answer == 0){
             System.out.println("Entering the inputted json file approach...");
+            System.out.print("Would you like the program to generate you a json file with range of numbers of your choice? Type yes or no: ");
+            String answer1 = scanner1.next();
+            ArrayList<Integer> rangeOfNumbers = new ArrayList<>();
+            int startingPoint = 0;
+            int endingPoint = 0;
             Gson gson = new Gson();
+            if(answer1.equalsIgnoreCase("yes")){
+                System.out.println("Select a range of numbers");
+                System.out.print("Starting Point: ");
+                startingPoint = scanner1.nextInt();
+                System.out.print("Ending Point: ");
+                endingPoint = scanner1.nextInt();
+                if (endingPoint >= startingPoint) {
+                    for (int i = startingPoint; i <= endingPoint; ++i) {
+                        rangeOfNumbers.add(i);
+                    }
+                } else {
+                    for (int i = startingPoint; i >= endingPoint; --i) {
+                        rangeOfNumbers.add(i);
+                    }
+                }
+                String generatedNumbers = "generatedNumbers";
+                String generatedNumbersFilePath = generatedNumbers + File.separator + "generatedNumbers.json";
+                File generatedNumbersDir = new File(generatedNumbers);
+                File generatedNumbersJson = new File(generatedNumbersFilePath);
+                if(!generatedNumbersDir.exists()){
+                    generatedNumbersDir.mkdirs();
+                }
+                if(!generatedNumbersJson.exists()){
+                    try{
+                        generatedNumbersJson.createNewFile();
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }
+                }
+                try(FileWriter writer = new FileWriter(generatedNumbersFilePath)){
+                    gson.toJson(rangeOfNumbers, writer);
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+                System.out.print("Would you like the program to be paused for a bit so that you can edit the generatedNumbers json file to then input it as listOfNumbers.json in the inputDir folder? If so, type yes, if not, type no: ");
+                String editGeneratedNumbersJson = scanner1.next();
+                while(editGeneratedNumbersJson.equalsIgnoreCase("yes")){
+                    System.out.print("Are you done editing the file? Type yes or no: ");
+                    String doneEditing = null;
+                    doneEditing = scanner1.next();
+                    if(doneEditing.equalsIgnoreCase("yes")){
+                        break;
+                    }
+                }
+            }
+            scanner1.close();
             boolean isPrime = false;
             String outputName = "outputDir";
             String inputName = "inputDir";
@@ -84,7 +136,7 @@ public class Main {
             }catch(IOException e){
                 e.printStackTrace();
             }
-            if(listOfNumbers != null){
+            if(!listOfNumbers.equals(null)){
                 outerLoop: for (int i = 0; i < listOfNumbers.size(); ++i) {
                     if (listOfNumbers.get(i) <= 1) {
                         norPrimeNorComposite.add(listOfNumbers.get(i));
@@ -105,10 +157,13 @@ public class Main {
                     if (isPrime) {
                         primeNumbers.add(listOfNumbers.get(i));
                     }
+                    isPrime = false;
                 }
             }else{
                 System.out.println("You didn't provide any numbers on the .json file 'listOfNumbers'");
             }
+            //Reordering numbers
+
             try(FileWriter writer = new FileWriter(primeNumbersFilePath)){
                 gson.toJson(primeNumbers, writer);
             }catch(IOException e){
