@@ -162,8 +162,6 @@ public class Main {
             }else{
                 System.out.println("You didn't provide any numbers on the .json file 'listOfNumbers'");
             }
-            //Reordering numbers
-
             try(FileWriter writer = new FileWriter(primeNumbersFilePath)){
                 gson.toJson(primeNumbers, writer);
             }catch(IOException e){
